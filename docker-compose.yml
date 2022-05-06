@@ -1,0 +1,44 @@
+version: '3.7'
+
+networks:
+  multipagearticles-net:
+
+volumes:
+  app-data:
+  redis-data:
+  mysql-data:
+
+services:
+  webapp:
+    image: '${REGISTRY_IMAGE}:${TAG}'
+    ports:
+      - ${PORT_HOST}:8080
+    networks:
+      - multipagearticles-net
+    volumes:
+      - app-data:/var/www/html/public/storage/
+      - .env:/var/www/html/.env
+    env_file: .env
+
+  redisdb:
+    image: redis:5.0.5-alpine
+    command: redis-server --requirepass "R3d1sRGb342"
+    networks:
+      - multipagearticles-net
+    volumes:
+      - redis-data:/data
+
+  mysqldb8:
+    image: 'mysql:8.0.21'
+    command: --sql_mode="" --default-authentication-plugin=mysql_native_password
+    networks:
+      - multipagearticles-net
+    cap_add:
+      - SYS_NICE
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      MYSQL_ROOT_PASSWORD: 69TcKjcXzWCWfRsda41
+      MYSQL_DATABASE: multipagearticles
+    volumes:
+      - 'mysql-data:/var/lib/mysql'

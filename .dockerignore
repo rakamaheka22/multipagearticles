@@ -1,0 +1,16 @@
+**/node_modules
+npm-debug.log
+build
+Dockerfile*
+Jenkinsfile*
+docker-compose*
+.dockerignore
+.editorconfig
+.git
+.gitignore
+.gitattributes
+README.md
+LICENSE
+.vscode
+.env.example
+.scannerwork
